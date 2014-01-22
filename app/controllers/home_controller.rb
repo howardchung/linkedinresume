@@ -3,8 +3,7 @@ require 'linkedin'
 
  def index
     client = LinkedIn::Client.new(ENV["API_KEY"], ENV["API_SECRET"])
-    request_token = client.request_token(:oauth_callback =>
-                                      root_url+"home/resume")
+    request_token = client.request_token(:oauth_callback=>root_url+"home/resume")
     session[:rtoken] = request_token.token
     session[:rsecret] = request_token.secret
     redirect_to client.request_token.authorize_url
