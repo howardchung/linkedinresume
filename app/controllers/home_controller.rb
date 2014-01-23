@@ -1,7 +1,11 @@
 class HomeController < ApplicationController
 require 'linkedin'
 
- def index
+  def index
+    
+  end
+  
+ def auth
     client = LinkedIn::Client.new(ENV["API_KEY"], ENV["API_SECRET"])
     request_token = client.request_token(:oauth_callback=>root_url+"home/resume")
     session[:rtoken] = request_token.token
