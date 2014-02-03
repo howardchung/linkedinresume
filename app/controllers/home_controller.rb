@@ -18,7 +18,7 @@ require 'linkedin'
     client = LinkedIn::Client.new(ENV["API_KEY"], ENV["API_SECRET"])
     
 if session["rtoken"].nil?
-          redirect_to :auth 
+    redirect_to "home/auth"
 end
 
     if session[:atoken].nil?
