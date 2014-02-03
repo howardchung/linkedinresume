@@ -16,9 +16,6 @@ require 'linkedin'
   #flow for any user to generate on demand
   def resume
     client = LinkedIn::Client.new(ENV["API_KEY"], ENV["API_SECRET"])
-	  #hardcoded oauth tokens for page for howard to display publicly?
-      session[:atoken] = ENV["USER_TOKEN"]
-	  session[:asecret] = ENV["USER_SECRET"]
     if session[:atoken].nil?
       pin = params[:oauth_verifier]
       atoken, asecret = client.authorize_from_request(session[:rtoken], session[:rsecret], pin)
@@ -27,8 +24,7 @@ require 'linkedin'
     else
       client.authorize_from_access(session[:atoken], session[:asecret])
     end
-    @profile = client.profile
+      @profile = client.profile(:fields => ["id", "first-name", "last-name", "public-profile-url", "email-address", "positions", "educations","projects", "skills", "member-url-resources"])
 end
-
 
 end
