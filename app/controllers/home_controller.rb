@@ -6,6 +6,8 @@ require 'linkedin'
   end
   
  def auth
+     redirect_to "home/resume" unless session[:atoken].nil?
+     
     client = LinkedIn::Client.new(ENV["API_KEY"], ENV["API_SECRET"])
     request_token = client.request_token(:oauth_callback=>root_url+"home/resume")
     session[:rtoken] = request_token.token
