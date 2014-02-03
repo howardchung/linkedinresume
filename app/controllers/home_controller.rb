@@ -20,18 +20,25 @@ require 'linkedin'
         
         id=@client.profile(:fields => ["id"])["id"]
         #save data to db
-        User.find_or_create_by_id(:user_id=>id, :atoken=>atoken, :asecret=>asecret)
+        user=User.find_or_create_by_user_id(id)
+        user.update(:user_id=>id, :atoken=>atoken, :asecret=>asecret)
         redirect_to :controller=>"home", :action=>"resume", :id=>id
     end
     
   def resume
-      #potential error when remote site tries to access this with an expired token, so cache the required data and update it on demand?
-      #check for expired token, if expired, send to auth action
-      #support html/pdf/json output
       @client = LinkedIn::Client.new(ENV["API_KEY"], ENV["API_SECRET"])
       #retrieve tokens from db
       user=User.where(:user_id=>params["id"]).first
-      @client.authorize_from_access(user.atoken, user.asecret)
+     
+      begin
+          @client.authorize_from_access(user.atoken, user.asecret)
+      rescue
+        #check for expired token, if expired, send to auth action
+        redirect_to :controller=>"home", :action=>"auth"
+        return
+      end
+      #TODO potential error when remote site tries to access this with an expired token, so cache the profile to DB, and provide link to update/refresh tokens on demand
+
       @profile=@client.profile(:fields => ["id", "first-name", "last-name", "public-profile-url", "email-address", "positions", "educations","projects", "skills", "member-url-resources"])
       respond_to do |format|
           format.html {}
