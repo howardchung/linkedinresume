@@ -7,7 +7,7 @@ require 'linkedin'
   
  def auth
      unless session[:atoken].nil?
-     redirect_to "home/resume"
+         redirect_to :controller=>"home", :action=>"resume"
          return
      end
      
