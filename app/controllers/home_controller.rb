@@ -16,6 +16,11 @@ require 'linkedin'
   #flow for any user to generate on demand
   def resume
     client = LinkedIn::Client.new(ENV["API_KEY"], ENV["API_SECRET"])
+    
+if session["rtoken"].nil?
+          redirect_to :auth 
+end
+
     if session[:atoken].nil?
       pin = params[:oauth_verifier]
       atoken, asecret = client.authorize_from_request(session[:rtoken], session[:rsecret], pin)
