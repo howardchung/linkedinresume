@@ -1,8 +1,7 @@
 class HomeController < ApplicationController
 require 'linkedin'
 
-  def index
-    
+  def index 
   end
   
  def auth
