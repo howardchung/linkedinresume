@@ -36,7 +36,7 @@ require 'linkedin'
       respond_to do |format|
           format.html {}
           format.pdf {}
-          format.json  { render :json => @profile) }
+          format.json  { render :json => @profile }
     end
 end
     
