@@ -34,8 +34,8 @@ require 'linkedin'
       @client.authorize_from_access(user.atoken, user.asecret)
       @profile=@client.profile(:fields => ["id", "first-name", "last-name", "public-profile-url", "email-address", "positions", "educations","projects", "skills", "member-url-resources"])
       respond_to do |format|
-          format.html
-          format.pdf
+          format.html {}
+          format.pdf {}
           format.json  { render :json => @profile) }
     end
 end
