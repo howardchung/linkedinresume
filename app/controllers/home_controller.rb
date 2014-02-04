@@ -44,7 +44,5 @@ require 'linkedin'
           format.pdf {}
           format.json  { render :json => @profile }
     end
-end
-    
-end
+  end
 end
