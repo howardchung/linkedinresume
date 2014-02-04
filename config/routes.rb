@@ -3,6 +3,7 @@ Linkedinresume::Application.routes.draw do
   get "home/resume"
   get "home/auth"
     get "home/callback"
+    get "home/update"
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
