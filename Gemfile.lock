@@ -78,8 +78,12 @@ GEM
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     oauth (0.4.7)
+    pdf-core (0.2.5)
     pg (0.17.0)
     polyglot (0.3.3)
+    prawn (1.0.0)
+      pdf-core (~> 0.2.2)
+      ttfunk (~> 1.1.1)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -139,6 +143,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
+    ttfunk (1.1.1)
     turbolinks (2.0.0)
       coffee-rails
     tzinfo (0.3.38)
@@ -161,6 +166,7 @@ DEPENDENCIES
   jquery-rails
   linkedin
   pg
+  prawn
   rails (= 4.0.0)
   rails_12factor
   rspec-rails (= 2.13.1)

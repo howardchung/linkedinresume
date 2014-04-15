@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
 require 'linkedin'
-  
+require "prawn"
+ 
   def index 
   end
   
@@ -10,8 +11,7 @@ require 'linkedin'
     session[:rtoken] = request_token.token
     session[:rsecret] = request_token.secret
     redirect_to client.request_token.authorize_url
-     
-  end
+end
 
     def callback
     client = LinkedIn::Client.new(ENV["API_KEY"], ENV["API_SECRET"])
@@ -23,7 +23,7 @@ require 'linkedin'
         #save data to db
         user=User.find_or_create_by_user_id(id)
         user.update(:user_id=>id, :atoken=>atoken, :asecret=>asecret)
-        redirect_to :controller=>"home", :action=>"resume", :id=>id
+        redirect_to :controller=>"home", :action=>"resume", :id=>id, :format=>"pdf"
     end
     
     #provide link to refresh/reauth
@@ -39,11 +39,14 @@ require 'linkedin'
       #grab user profile from db
       @profile=user.profile
       end
+
       respond_to do |format|
-          format.html {}
-          format.pdf {}
+          format.pdf {
+            pdf = Prawn::Document.new
+
+            send_data pdf.render, filename: "Resume.pdf', type: 'application/pdf', disposition: 'inline'
+}
           format.json  { render :json => @profile }
     end
   end
 end
-3

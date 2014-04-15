@@ -8,6 +8,7 @@ gem 'rspec-rails', '2.13.1'
   
 gem 'figaro'
 gem 'linkedin'
+gem 'prawn'
 
 group :development do
   gem 'sqlite3'
