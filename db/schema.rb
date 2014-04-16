@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20140203080033) do
     t.string   "user_id"
     t.string   "atoken"
     t.string   "asecret"
-      t.string "profile"
+    t.string   "profile"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

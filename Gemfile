@@ -2,9 +2,6 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
-
-gem 'capybara'
-gem 'rspec-rails', '2.13.1'
   
 gem 'figaro'
 gem 'linkedin'
@@ -16,7 +13,6 @@ end
 
 group :test do
   gem 'sqlite3'
-  gem 'factory_girl_rails', '4.2.1'
 end
 
 group :production do

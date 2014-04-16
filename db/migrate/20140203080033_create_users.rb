@@ -4,7 +4,7 @@ class CreateUsers < ActiveRecord::Migration
         t.string :user_id
       t.string :atoken
       t.string :asecret
-
+      t.string :profile
       t.timestamps
     end
   end

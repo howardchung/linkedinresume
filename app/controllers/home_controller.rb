@@ -23,7 +23,7 @@ end
         #save data to db
         user=User.find_or_create_by_user_id(id)
         user.update(:user_id=>id, :atoken=>atoken, :asecret=>asecret)
-        redirect_to :controller=>"home", :action=>"resume", :id=>id, :format=>"pdf"
+        redirect_to :controller=>"home", :action=>"resume", :id=>id
     end
     
     #provide link to refresh/reauth
@@ -32,18 +32,19 @@ end
           user=User.where(:user_id=>params[:id]).first
       #try to grab updated data, if failed, fallback to db
       begin
-          client.authorize_from_access(user.atoken, user.asecret)
+           client.authorize_from_access(user.atoken, user.asecret)
            @profile=client.profile(:fields => ["id", "first-name", "last-name", "public-profile-url", "email-address", "positions", "educations","projects", "skills", "member-url-resources"])
-          user.update(:profile=>@profile.to_json)
+           user.update(:profile=>@profile.to_json)
       rescue
-      #grab user profile from db
-      @profile=user.profile
+        #grab user profile from db
+        @profile=user.profile
       end
 
       respond_to do |format|
+        format.html{}
           format.pdf {
             pdf = Prawn::Document.new
-            send_data pdf.render, filename: @profile["first_name"]+@profile["last_name"]+"Resume.pdf', type: 'application/pdf', disposition: 'inline'
+            send_data pdf.render, filename: @profile["first_name"]+@profile["last_name"]+'Resume.pdf', type: 'application/pdf', disposition: 'inline'
 }
           format.json  { render :json => @profile }
     end
