@@ -43,8 +43,7 @@ end
       respond_to do |format|
           format.pdf {
             pdf = Prawn::Document.new
-
-            send_data pdf.render, filename: "Resume.pdf', type: 'application/pdf', disposition: 'inline'
+            send_data pdf.render, filename: @profile["first_name"]+@profile["last_name"]+"Resume.pdf', type: 'application/pdf', disposition: 'inline'
 }
           format.json  { render :json => @profile }
     end
