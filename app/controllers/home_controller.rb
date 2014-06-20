@@ -22,7 +22,7 @@ end
         id=@profile["id"]
         #save data to db
         user=User.find_or_create_by_user_id(id)
-        user.update(:user_id=>id, :atoken=>atoken, :asecret=>asecret)
+      user.update(:user_id=>id, :atoken=>atoken, :asecret=>asecret, :profile=>@profile.to_json)
         redirect_to :controller=>"home", :action=>"resume", :id=>id
     end
     
