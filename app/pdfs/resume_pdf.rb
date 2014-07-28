@@ -1,15 +1,14 @@
-ass ReportPdf < Prawn::Document
-  def initialize(products)
+class ReportPdf < Prawn::Document
+  def initialize(profile)
     super()
-    @products = products
+    @profile = profile
     header
     text_content
     table_content
   end
  
   def header
-    #This inserts an image in the pdf file and sets the size of the image
-    image "#{Rails.root}/app/assets/images/header.png", width: 530, height: 150
+    text profile.first_name+" "+profile.last_name, size: 24, style: :bold
   end
  
   def text_content
@@ -43,8 +42,8 @@ ass ReportPdf < Prawn::Document
  
   def product_rows
     [['#', 'Name', 'Price']] +
-      @products.map do |product|
-      [product.id, product.name, product.price]
+      @profile.map do |p|
+      [p.first_name, p.last_name, p.id]
     end
   end
 end
