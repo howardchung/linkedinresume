@@ -1,4 +1,4 @@
-class ReportPdf < Prawn::Document
+class ResumePdf < Prawn::Document
   def initialize(profile)
     super()
     @profile = profile
