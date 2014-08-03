@@ -43,7 +43,7 @@ end
       respond_to do |format|
         format.html{}
           format.pdf {
-            pdf = ResumePdf.new
+            pdf = ResumePdf.new(@profile)
             send_data pdf.render, filename: @profile["first_name"]+@profile["last_name"]+'Resume.pdf', type: 'application/pdf', disposition: 'inline'
 }
           format.json  { render :json => @profile }

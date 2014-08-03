@@ -2,48 +2,89 @@ class ResumePdf < Prawn::Document
   def initialize(profile)
     super()
     @profile = profile
-    header
+    font "Times-Roman"
     text_content
-    table_content
   end
- 
-  def header
-    text profile.first_name+" "+profile.last_name, size: 24, style: :bold
+
+  PAD_SPACE = 10
+
+  def start_end_helper(item)
+    unless item["start_date"]["month"].nil?
+      start_month = item["start_date"]["month"].to_s + " / "
+    else
+      start_month = ""
+    end
+
+    start_date= start_month+ item["start_date"]["year"].to_s
+
+    if item["is_current"]
+      end_date = "Present"
+    else
+      unless item["end_date"]["month"].nil?
+        end_month = item["end_date"]["month"].to_s  + " / " 
+      else
+        end_month = ""
+      end
+      end_date= end_month + item["end_date"]["year"].to_s
+    end
+    return start_date + " - "+ end_date
   end
- 
+
   def text_content
-    # The cursor for inserting content starts on the top left of the page. Here we move it down a little to create more space between the text and the image inserted above
-    y_position = cursor - 50
- 
-    # The bounding_box takes the x and y coordinates for positioning its content and some options to style it
-    bounding_box([0, y_position], :width => 270, :height => 300) do
-      text "Lorem ipsum", size: 15, style: :bold
-      text "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse interdum semper placerat. Aenean mattis fringilla risus ut fermentum. Fusce posuere dictum venenatis. Aliquam id tincidunt ante, eu pretium eros. Sed eget risus a nisl aliquet scelerisque sit amet id nisi. Praesent porta molestie ipsum, ac commodo erat hendrerit nec. Nullam interdum ipsum a quam euismod, at consequat libero bibendum. Nam at nulla fermentum, congue lectus ut, pulvinar nisl. Curabitur consectetur quis libero id laoreet. Fusce dictum metus et orci pretium, vel imperdiet est viverra. Morbi vitae libero in tortor mattis commodo. Ut sodales libero erat, at gravida enim rhoncus ut."
+    text @profile.first_name+" "+@profile.last_name, size: 24, style: :bold
+    pad(PAD_SPACE) {
+      text @profile.email_address, size: 12
+
+      unless @profile.member_url_resources["all"].nil?
+        @profile.member_url_resources["all"].map do |item|
+          text item["url"], size: 12
+        end
+      end
+      }
+
+    unless @profile.educations.nil?
+      text "Education", size: 16, style: :bold
+      @profile.educations["all"].map do |item|
+        pad(PAD_SPACE){
+          text item["school_name"], size: 14
+          pieces = ["degree", "field_of_study"]
+          pieces.each do |p|
+            unless item[p].nil?
+              text item[p], size: 12
+            end
+          end
+          text start_end_helper(item), size: 12
+          }
+      end
     end
- 
-    bounding_box([300, y_position], :width => 270, :height => 300) do
-      text "Duis vel", size: 15, style: :bold
-      text "Duis vel tortor elementum, ultrices tortor vel, accumsan dui. Nullam in dolor rutrum, gravida turpis eu, vestibulum lectus. Pellentesque aliquet dignissim justo ut fringilla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut venenatis massa non eros venenatis aliquet. Suspendisse potenti. Mauris sed tincidunt mauris, et vulputate risus. Aliquam eget nibh at erat dignissim aliquam non et risus. Fusce mattis neque id diam pulvinar, fermentum luctus enim porttitor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."
+
+    unless @profile.positions.nil?
+      text "Positions", size: 16, style: :bold
+      @profile.positions["all"].map do |item|
+        pad(PAD_SPACE){
+          text item["title"] + " - " + item["company"]["name"], size: 14
+          text start_end_helper(item), size: 12
+          text item["summary"], size: 10
+          }
+      end
     end
- 
-  end
- 
-  def table_content
-    # This makes a call to product_rows and gets back an array of data that will populate the columns and rows of a table
-    # I then included some styling to include a header and make its text bold. I made the row background colors alternate between grey and white
-    # Then I set the table column widths
-    table product_rows do
-      row(0).font_style = :bold
-      self.header = true
-      self.row_colors = ['DDDDDD', 'FFFFFF']
-      self.column_widths = [40, 300, 200]
+
+    unless @profile.projects.nil?
+      text "Projects", size: 16, style: :bold
+      @profile.projects["all"].map do |item|
+        pad(PAD_SPACE){
+          text item["name"], size: 14
+          text item["url"], size: 12
+          text item["description"], size: 10
+          }
+      end
     end
-  end
- 
-  def product_rows
-    [['#', 'Name', 'Price']] +
-      @profile.map do |p|
-      [p.first_name, p.last_name, p.id]
+
+    unless @profile.skills.nil?
+      text "Skills", size: 16, style: :bold
+      @profile.skills["all"].map do |item|
+        text item["skill"]["name"], size: 12
+      end
     end
   end
 end
