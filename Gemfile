@@ -5,7 +5,7 @@ gem 'rails', '4.0.0'
   
 gem 'figaro'
 gem 'linkedin'
-gem 'prawn'
+gem 'prawn',  '>=1.3.0'
 
 group :development do
   gem 'sqlite3'
