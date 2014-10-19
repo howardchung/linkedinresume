@@ -37,7 +37,7 @@ end
            user.update(:profile=>@profile.to_json)
       rescue
         #grab user profile from db
-        @profile=user.profile
+          @profile=JSON.parse(user.profile)
       end
 
       respond_to do |format|
