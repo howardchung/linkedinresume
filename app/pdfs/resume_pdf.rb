@@ -33,18 +33,18 @@ class ResumePdf
   end
 
   def text_content
-    text @profile.first_name+" "+@profile.last_name, size: 24, style: :bold
+    text @profile["first_name"]+" "+@profile["last_name"], size: 24, style: :bold
     pad(PAD_SPACE) {
-      text @profile.email_address, size: 12
+      text @profile["email_address"], size: 12
 
-      unless @profile.member_url_resources["all"].nil?
-        @profile.member_url_resources["all"].map do |item|
+      unless @profile["member_url_resources"]["all"].nil?
+        @profile["member_url_resources"]["all"].map do |item|
           text item["url"], size: 12
         end
       end
       }
 
-    unless @profile.educations.nil?
+    unless @profile["educations"].nil?
       text "Education", size: 16, style: :bold
       @profile.educations["all"].map do |item|
         pad(PAD_SPACE){
