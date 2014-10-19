@@ -1,4 +1,6 @@
-class ResumePdf < Prawn::Document
+class ResumePdf 
+    include Prawn::View
+    
   def initialize(profile)
     super()
     @profile = profile
