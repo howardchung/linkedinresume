@@ -46,7 +46,7 @@ class ResumePdf
 
     unless @profile["educations"].nil?
       text "Education", size: 16, style: :bold
-      @profile.educations["all"].map do |item|
+      @profile["educations"]["all"].map do |item|
         pad(PAD_SPACE){
           text item["school_name"], size: 14
           pieces = ["degree", "field_of_study"]
@@ -60,9 +60,9 @@ class ResumePdf
       end
     end
 
-    unless @profile.positions.nil?
+    unless @profile["positions"].nil?
       text "Positions", size: 16, style: :bold
-      @profile.positions["all"].map do |item|
+      @profile["positions"]["all"].map do |item|
         pad(PAD_SPACE){
           text item["title"] + " - " + item["company"]["name"], size: 14
           text start_end_helper(item), size: 12
@@ -71,9 +71,9 @@ class ResumePdf
       end
     end
 
-    unless @profile.projects.nil?
+    unless @profile["projects"].nil?
       text "Projects", size: 16, style: :bold
-      @profile.projects["all"].map do |item|
+      @profile["projects"]["all"].map do |item|
         pad(PAD_SPACE){
           text item["name"], size: 14
           text item["url"], size: 12
@@ -82,9 +82,9 @@ class ResumePdf
       end
     end
 
-    unless @profile.skills.nil?
+    unless @profile["skills"].nil?
       text "Skills", size: 16, style: :bold
-      @profile.skills["all"].map do |item|
+      @profile["skills"]["all"].map do |item|
         text item["skill"]["name"], size: 12
       end
     end
